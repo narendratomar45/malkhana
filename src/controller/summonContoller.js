@@ -1,4 +1,4 @@
-const SummonEntry = require("../model/summonEntryModel.js");
+const SummonEntry = require("../model/summonEntry/summonEntryModel.js");
 
 const createSummonEntry = async (req, res) => {
   try {
