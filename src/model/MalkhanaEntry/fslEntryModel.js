@@ -15,7 +15,7 @@ const fslEntrySchema = new mongoose.Schema({
   place: { type: String, required: true, trim: true },
   court: { type: String, required: true, trim: true },
   status: { type: String, required: true, trim: true, default: "Pending" },
-  photoUrl: { type: String, required: true, trim: true },
+  avatar: { type: String, required: true, trim: true },
 });
 const FslEntry = mongoose.model("FslEntry", fslEntrySchema);
 module.exports = FslEntry;
