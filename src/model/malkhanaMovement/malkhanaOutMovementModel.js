@@ -19,6 +19,7 @@ const malkhanaOutMovementSchema = mongoose.Schema(
       ],
     },
     firNo: { type: String, required: true, trim: true },
+    mudNo: { type: String, required: true, trim: true },
     takenOutBy: { type: String, required: true, trim: true },
     trackingBy: {
       type: String,

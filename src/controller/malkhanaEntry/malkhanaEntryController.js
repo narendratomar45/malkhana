@@ -130,6 +130,24 @@ const updateMalkhanaEntry = async (req, res) => {
         }
       }
     }
+    const existingMalkhanaEntry = await MalkhanaEntry.findById(id);
+    if (!existingMalkhanaEntry) {
+      return res.status(404).json({ message: "Malkhana Entry Not Found" });
+    }
+    const avatarUrl = existingMalkhanaEntry.avatar;
+    if (req.files.avatar[0].path) {
+      const avatarLocalPath = path
+        .resolve(req.files.avatar[0].path)
+        .replace(/\\/g, "/");
+      if (!avatarLocalPath) {
+        return res.status(400).json({ message: "Avatar file required" });
+      }
+      const uploadAvatar = await uploadOnCloudinary(avatarLocalPath);
+      if (!uploadAvatar || !uploadAvatar.url) {
+        return res.status({ message: "Avtar Upload failed" });
+      }
+    }
+    avatarUrl = uploadAvatar.url;
     const malkhana = await MalkhanaEntry.findByIdAndUpdate(
       id,
       {
@@ -147,18 +165,11 @@ const updateMalkhanaEntry = async (req, res) => {
         description,
         place,
         court,
-        status,
-        avatar: avatarUpload.url,
+        status: status || "Pending",
+        avatar: avatarUrl,
       },
       { new: true }
     );
-    if (!malkhana) {
-      return res.status(404).json({
-        success: false,
-        message: "Malkhana Entry Not Found",
-      });
-    }
-
     return res.status(200).json({
       success: true,
       message: "Malkhana Updated Successfully",
