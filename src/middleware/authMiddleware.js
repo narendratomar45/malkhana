@@ -27,4 +27,5 @@ const userAuth = async (req, res, next) => {
       .json({ success: false, message: "Forbidden: Invalid token" });
   }
 };
+
 module.exports = userAuth;

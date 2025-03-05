@@ -4,31 +4,46 @@ const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    const { username, email, password, mobile, policeStation, designation } =
-      req.body;
+    const {
+      username,
+      policeStation,
+      mobile,
+      email,
+      designation,
+      role,
+      password,
+      confirmPassword,
+    } = req.body;
     if (
       !username ||
       !email ||
       !password ||
+      !confirmPassword ||
       !mobile ||
       !policeStation ||
-      !designation
+      !designation ||
+      !role
     ) {
       return res.status(400).json({ message: "All fields are required" });
+    }
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Password do not match" });
     }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "You have already account " });
     }
     const salt = await bcrypt.genSalt(10);
-    const hashPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const user = await User.create({
       username,
-      email,
-      password: hashPassword,
       policeStation,
-      designation,
       mobile,
+      email,
+      designation,
+      role,
+      password: hashedPassword,
+      confirmPassword: hashedPassword,
     });
     return res
       .status(201)
@@ -80,8 +95,15 @@ const login = async (req, res) => {
 };
 const updateUser = async (req, res) => {
   try {
-    const { username, email, password, mobile, policeStation, designation } =
-      req.user;
+    const {
+      username,
+      policeStation,
+      mobile,
+      email,
+      designation,
+      role,
+      password,
+    } = req.user;
     const { _id } = req.user;
     console.log("USERIDINUPDATECONTROLLER", _id);
 

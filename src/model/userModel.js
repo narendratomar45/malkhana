@@ -6,19 +6,21 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    policeStation: {
+      type: String,
+      required: true,
+    },
+    mobile: { type: String },
     email: {
       type: String,
       required: true,
       unique: true,
       trim: true,
     },
-    password: { type: String, required: true },
-    policeStation: {
-      type: String,
-      required: true,
-    },
     designation: { type: String, required: true },
-    mobile: { type: String },
+    role: { type: String, required: true },
+    password: { type: String, required: true },
+    confirmPassword: { type: String, required: true },
   },
   { timestamps: true }
 );
