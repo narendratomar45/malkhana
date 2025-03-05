@@ -15,6 +15,7 @@ const unclaimedVehicleSchema = new mongoose.Schema(
     result: { type: String, required: true },
     photoUrl: { type: String },
     firNumber: { type: String, required: true, unique: true },
+    isTracked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

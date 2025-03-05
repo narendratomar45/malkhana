@@ -12,10 +12,11 @@ const seizureVehicleSchema = new mongoose.Schema(
     vivechak: { type: String, required: true },
     colour: { type: String },
     engineNumber: { type: String, required: true, unique: true },
-    result: {type: String, required: true },
-    photoUrl: { type: String },
+    result: { type: String, required: true },
+    document: { type: String },
     firNumber: { type: String, required: true, unique: true },
     banam: { type: String, required: true },
+    isTracked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

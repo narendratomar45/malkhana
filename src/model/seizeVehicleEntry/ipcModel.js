@@ -13,9 +13,10 @@ const ipcVehicleSchema = new mongoose.Schema(
     colour: { type: String },
     engineNumber: { type: String, required: true, unique: true },
     result: {type: String, required: true },
-    photoUrl: { type: String },
+    document: { type: String },
     firNumber: { type: String, required: true, unique: true },
     vehicleOwner: { type: String, required: true },
+    isTracked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

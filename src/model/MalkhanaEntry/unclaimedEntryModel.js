@@ -16,6 +16,7 @@ const unclaimedEntrySchema = new mongoose.Schema({
   court: { type: String, required: true, trim: true },
   status: { type: String, required: true, trim: true, default: "Pending" },
   photoUrl: { type: String, required: true, trim: true },
+  isTracked: { type: Boolean, default: false },
 });
 const UnclaimedEntry = mongoose.model("UnclaimedEntry", unclaimedEntrySchema);
 module.exports = UnclaimedEntry;

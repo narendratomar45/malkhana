@@ -13,7 +13,8 @@ const mvActSchema = new mongoose.Schema(
     colour: { type: String },
     engineNumber: { type: String, required: true, unique: true },
     result: { type: String, required: true },
-    photoUrl: { type: String },
+    document: { type: String },
+    isTracked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

@@ -17,7 +17,7 @@ const malkhanaEntrySchema = new mongoose.Schema(
     court: { type: String, required: true, trim: true },
     status: { type: String, required: true, trim: true, default: "Pending" },
     avatar: { type: String, required: true },
-  },
+    isTracked: { type: Boolean, default: false },  },
   { timestamps: true }
 );
 const MalkhanaEntry = mongoose.model("MalkhanaEntry", malkhanaEntrySchema);

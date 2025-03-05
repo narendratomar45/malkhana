@@ -16,6 +16,7 @@ const othersEntrySchema = new mongoose.Schema({
   court: { type: String, required: true, trim: true },
   status: { type: String, required: true, trim: true, default: "Pending" },
   avatar: { type: String, required: true, trim: true },
+  isTracked: { type: Boolean, default: false },
 });
 const OthersEntry = mongoose.model("OthersEntry", othersEntrySchema);
 module.exports = OthersEntry;

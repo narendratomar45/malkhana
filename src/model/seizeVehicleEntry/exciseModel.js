@@ -12,11 +12,12 @@ const exciseVehicleSchema = new mongoose.Schema(
     vivechak: { type: String, required: true },
     colour: { type: String },
     engineNumber: { type: String, required: true, unique: true },
-    result: {type: String, required: true },
-    photoUrl: { type: String },
+    result: { type: String, required: true },
     firNumber: { type: String, required: true, unique: true },
     banam: { type: String, required: true },
     vehicleOwner: { type: String, required: true },
+    document: { type: String },
+    isTracked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

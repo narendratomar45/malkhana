@@ -12,8 +12,9 @@ const artoSeizureSchema = new mongoose.Schema(
     actType: { type: String, required: true },
     colour: { type: String },
     engineNumber: { type: String, required: true, unique: true },
-    result: {type: String, required: true },
-    photoUrl: { type: String },
+    result: { type: String, required: true },
+    document: { type: String },
+    isTracked: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
