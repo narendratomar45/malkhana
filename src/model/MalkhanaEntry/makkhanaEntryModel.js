@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const malkhanaEntrySchema = new mongoose.Schema(
   {
-    firNo: { type: String, required: true, trim: true },
+    firNumber: { type: String, required: true, trim: true },
     firYear: { type: String, required: true, trim: true },
-    mudNo: { type: String, required: true, trim: true },
-    gdNo: { type: String, required: true, trim: true },
+    mudNumber: { type: String, required: true, trim: true },
+    gdNumber: { type: String, required: true, trim: true },
     gdDate: { type: String, required: true, trim: true },
     ioName: { type: String, required: true, trim: true },
     dakhilKarneWala: { type: String, required: true, trim: true },
@@ -17,7 +17,8 @@ const malkhanaEntrySchema = new mongoose.Schema(
     court: { type: String, required: true, trim: true },
     status: { type: String, required: true, trim: true, default: "Pending" },
     avatar: { type: String, required: true },
-    isTracked: { type: Boolean, default: false },  },
+    isTracked: { type: Boolean, default: false },
+  },
   { timestamps: true }
 );
 const MalkhanaEntry = mongoose.model("MalkhanaEntry", malkhanaEntrySchema);

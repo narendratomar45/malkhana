@@ -6,10 +6,10 @@ const mongoose = require("mongoose");
 const createFslEntry = async (req, res) => {
   try {
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -24,10 +24,10 @@ const createFslEntry = async (req, res) => {
     } = req.body;
     if (
       [
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,
@@ -54,10 +54,10 @@ const createFslEntry = async (req, res) => {
       return res.status(400).json({ message: "Avtar upload failed" });
     }
     const fslEntry = await FslEntry.create({
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -103,10 +103,10 @@ const updateFslEntry = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID Format" });
     }
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -121,10 +121,10 @@ const updateFslEntry = async (req, res) => {
     } = req.body;
     if (
       [
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,
@@ -161,10 +161,10 @@ const updateFslEntry = async (req, res) => {
     const updatedFslEntry = await FslEntry.findByIdAndUpdate(
       id,
       {
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,

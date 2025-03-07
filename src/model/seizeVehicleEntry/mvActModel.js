@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const mvActSchema = new mongoose.Schema(
   {
-    mudNo: { type: Number, required: true },
+    mudNumber: { type: Number, required: true },
     gdNumber: { type: Number, required: true },
     gdDate: { type: Date, required: true },
     underSection: { type: String, required: true },

@@ -8,7 +8,7 @@ const MalkhanaRelease = require("../../model/malkhanaRelease/malkhanaReleaseMode
 const createmvAct = async (req, res) => {
   try {
     const {
-      mudNo,
+      mudNumber,
       gdNumber,
       gdDate,
       underSection,
@@ -22,7 +22,7 @@ const createmvAct = async (req, res) => {
     } = req.body;
     if (
       [
-        mudNo,
+        mudNumber,
         gdNumber,
         gdDate,
         underSection,
@@ -55,7 +55,7 @@ const createmvAct = async (req, res) => {
       });
     }
     const mvAct = await MvActSeizure.create({
-      mudNo,
+      mudNumber,
       gdNumber,
       gdDate,
       underSection,
@@ -88,7 +88,7 @@ const updateMvAct = asyncHandler(async (req, res) => {
   }
 
   const {
-    mudNo,
+    mudNumber,
     gdNumber,
     gdDate,
     underSection,
@@ -102,7 +102,7 @@ const updateMvAct = asyncHandler(async (req, res) => {
   } = req.body;
   if (
     [
-      mudNo,
+      mudNumber,
       gdNumber,
       gdDate,
       underSection,
@@ -122,9 +122,11 @@ const updateMvAct = asyncHandler(async (req, res) => {
   if (!existingEntry) {
     throw new ApiError(404, "data not found");
   }
-  const existingMudNo = existingEntry.mudNo;
+  const existingmudNumber = existingEntry.mudNumber;
 
-  const releaseItem = await MalkhanaRelease.find({ mudNo: existingMudNo });
+  const releaseItem = await MalkhanaRelease.find({
+    mudNumber: existingmudNumber,
+  });
   if (releaseItem.length > 0) {
     throw new ApiError(400, "Modification is not allowed for released data");
   }

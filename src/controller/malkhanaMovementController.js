@@ -28,12 +28,18 @@ const models = {
 
 const createMalkhnaMovement = async (req, res) => {
   try {
-    const { entryType, mudNo, firNo, takenOutBy, trackingBy, description } =
-      req.body;
+    const {
+      entryType,
+      mudNumber,
+      firNumber,
+      takenOutBy,
+      trackingBy,
+      description,
+    } = req.body;
     if (
       !entryType ||
-      !firNo ||
-      !mudNo ||
+      !firNumber ||
+      !mudNumber ||
       !takenOutBy ||
       !trackingBy ||
       !description
@@ -44,15 +50,15 @@ const createMalkhnaMovement = async (req, res) => {
     if (!Model) {
       return res.status(400).json({ message: "Invalid entryType" });
     }
-    const entry = await Model.findOne({ firNo, mudNo });
+    const entry = await Model.findOne({ firNumber, mudNumber });
     if (!entry) {
       return res
         .status(400)
         .json({ message: "Mud Number not found in the selected Entry Type" });
     }
     const existingTracking = await MalkhanaOutMovement.findOne({
-      firNo,
-      mudNo,
+      firNumber,
+      mudNumber,
     });
     if (existingTracking) {
       return res
@@ -69,14 +75,17 @@ const createMalkhnaMovement = async (req, res) => {
     }
     const malkhanaMovement = await MalkhanaOutMovement.create({
       entryType,
-      firNo,
-      mudNo,
+      firNumber,
+      mudNumber,
       takenOutBy,
       trackingBy,
       description,
       document: documentFile.url,
     });
-    await Model.updateOne({ firNo, mudNo }, { $set: { isTracked: true } });
+    await Model.updateOne(
+      { firNumber, mudNumber },
+      { $set: { isTracked: true } }
+    );
     return res
       .status(201)
       .json({ message: "Malkhna Movement is created", malkhanaMovement });
@@ -89,9 +98,9 @@ const createMalkhnaMovement = async (req, res) => {
 };
 const getUntrackedMudNumbers = async (req, res) => {
   try {
-    const { entryType, firNo } = req.query;
+    const { entryType, firNumber } = req.query;
 
-    if (!entryType || !firNo) {
+    if (!entryType || !firNumber) {
       return res
         .status(400)
         .json({ message: "Entry Type and FIR No are required" });
@@ -103,9 +112,9 @@ const getUntrackedMudNumbers = async (req, res) => {
     }
 
     const untrackedMudNumbers = await Model.find({
-      firNo,
+      firNumber,
       isTracked: { $ne: true },
-    }).select("mudNo");
+    }).select("mudNumber");
 
     return res.status(200).json({ untrackedMudNumbers });
   } catch (error) {
@@ -115,15 +124,15 @@ const getUntrackedMudNumbers = async (req, res) => {
 };
 const getTrackedMudNumbers = async (req, res) => {
   try {
-    const { firNo } = req.query;
+    const { firNumber } = req.query;
 
-    if (!firNo) {
+    if (!firNumber) {
       return res.status(400).json({ message: "FIR No is required" });
     }
 
-    const trackedMudNumbers = await MalkhanaOutMovement.find({ firNo }).select(
-      "mudNo trackingBy"
-    );
+    const trackedMudNumbers = await MalkhanaOutMovement.find({
+      firNumber,
+    }).select("mudNumber trackingBy");
 
     return res.status(200).json({ trackedMudNumbers });
   } catch (error) {

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const ipcVehicleSchema = new mongoose.Schema(
   {
-    mudNo: { type: Number, required: true, unique: true },
+    mudNumber: { type: Number, required: true, unique: true },
     gdNumber: { type: Number, required: true, unique: true },
     gdDate: { type: Date, required: true },
     underSection: { type: String, required: true },

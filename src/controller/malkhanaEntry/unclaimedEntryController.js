@@ -4,10 +4,10 @@ const UnclaimedEntry = require("../../model/MalkhanaEntry/unclaimedEntryModel");
 const createUnclaimedEntry = async (req, res) => {
   try {
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -22,10 +22,10 @@ const createUnclaimedEntry = async (req, res) => {
     } = req.body;
     if (
       [
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,
@@ -53,10 +53,10 @@ const createUnclaimedEntry = async (req, res) => {
       return res.status(400).json({ message: "Avatar upload failed" });
     }
     const unclaimedEntry = await UnclaimedEntry.create({
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,

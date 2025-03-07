@@ -18,7 +18,7 @@ const releaseSchema = new mongoose.Schema(
       ],
       required: true,
     },
-    mudNo: {
+    mudNumber: {
       type: String,
       required: true,
     },

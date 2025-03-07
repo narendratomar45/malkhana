@@ -5,10 +5,10 @@ const path = require("path");
 const createKurkiEntry = async (req, res) => {
   try {
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -23,10 +23,10 @@ const createKurkiEntry = async (req, res) => {
     } = req.body;
     if (
       [
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,
@@ -55,10 +55,10 @@ const createKurkiEntry = async (req, res) => {
       return res.status(400).json({ message: "Avatar upload failed" });
     }
     const Kurki = await KurkiEntry.create({
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -104,10 +104,10 @@ const updateKurkiEntry = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID" });
     }
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -151,10 +151,10 @@ const updateKurkiEntry = async (req, res) => {
     const kurki = await KurkiEntry.findByIdAndUpdate(
       id,
       {
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,

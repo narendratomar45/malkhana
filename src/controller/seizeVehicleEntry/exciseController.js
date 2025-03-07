@@ -8,7 +8,7 @@ const MalkhanaRelease = require("../../model/malkhanaRelease/malkhanaReleaseMode
 const createExcise = async (req, res) => {
   try {
     const {
-      mudNo,
+      mudNumber,
       gdNumber,
       gdDate,
       underSection,
@@ -26,7 +26,7 @@ const createExcise = async (req, res) => {
     } = req.body;
     if (
       [
-        mudNo,
+        mudNumber,
         gdNumber,
         gdDate,
         underSection,
@@ -66,7 +66,7 @@ const createExcise = async (req, res) => {
       return res.status(400).json({ message: "Failed to upload document" });
     }
     const excise = await ExciseVehicle.create({
-      mudNo,
+      mudNumber,
       gdNumber,
       gdDate,
       underSection,
@@ -104,7 +104,7 @@ const updateExcise = asyncHandler(async (req, res) => {
   }
 
   const {
-    mudNo,
+    mudNumber,
     gdNumber,
     gdDate,
     underSection,
@@ -123,7 +123,7 @@ const updateExcise = asyncHandler(async (req, res) => {
 
   if (
     [
-      mudNo,
+      mudNumber,
       gdNumber,
       gdDate,
       underSection,
@@ -147,9 +147,11 @@ const updateExcise = asyncHandler(async (req, res) => {
   if (!existingEntry) {
     throw new ApiError(404, "data not found");
   }
-  const existingMudNo = existingEntry.mudNo;
+  const existingmudNumber = existingEntry.mudNumber;
 
-  const releaseItem = await MalkhanaRelease.find({ mudNo: existingMudNo });
+  const releaseItem = await MalkhanaRelease.find({
+    mudNumber: existingmudNumber,
+  });
   if (releaseItem.length > 0) {
     throw new ApiError(400, "Modification is not allowed for released data");
   }

@@ -5,10 +5,10 @@ const path = require("path");
 const createMalkhanaEntry = async (req, res) => {
   try {
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -23,10 +23,10 @@ const createMalkhanaEntry = async (req, res) => {
     } = req.body;
     if (
       [
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,
@@ -55,10 +55,10 @@ const createMalkhanaEntry = async (req, res) => {
       return res.status(400).json({ message: "Avatar upload failed" });
     }
     const malkhana = await MalkhanaEntry.create({
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -104,10 +104,10 @@ const updateMalkhanaEntry = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID" });
     }
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -151,10 +151,10 @@ const updateMalkhanaEntry = async (req, res) => {
     const malkhana = await MalkhanaEntry.findByIdAndUpdate(
       id,
       {
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,

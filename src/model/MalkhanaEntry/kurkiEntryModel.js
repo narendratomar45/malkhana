@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const kurkiEntrySchema = new mongoose.Schema({
-  firNo: { type: String, required: true, trim: true },
+  firNumber: { type: String, required: true, trim: true },
   firYear: { type: String, required: true, trim: true },
-  mudNo: { type: String, required: true, trim: true },
-  gdNo: { type: String, required: true, trim: true },
+  mudNumber: { type: String, required: true, trim: true },
+  gdNumber: { type: String, required: true, trim: true },
   gdDate: { type: String, required: true, trim: true },
   ioName: { type: String, required: true, trim: true },
   dakhilKarneWala: { type: String, required: true, trim: true },

@@ -8,7 +8,7 @@ const MalkhanaRelease = require("../../model/malkhanaRelease/malkhanaReleaseMode
 const createSiezure = async (req, res) => {
   try {
     const {
-      mudNo,
+      mudNumber,
       gdNumber,
       underSection,
       vehicleType,
@@ -25,7 +25,7 @@ const createSiezure = async (req, res) => {
       banam,
     } = req.body;
     if (
-      !mudNo ||
+      !mudNumber ||
       !gdNumber ||
       !underSection ||
       !vehicleType ||
@@ -67,7 +67,7 @@ const createSiezure = async (req, res) => {
       });
     }
     const siezure = await SeizureVehicle.create({
-      mudNo,
+      mudNumber,
       gdNumber,
       gdDate,
       underSection,
@@ -104,7 +104,7 @@ const updateSeizureVehicle = asyncHandler(async (req, res) => {
   }
 
   const {
-    mudNo,
+    mudNumber,
     gdNumber,
     underSection,
     vehicleType,
@@ -122,7 +122,7 @@ const updateSeizureVehicle = asyncHandler(async (req, res) => {
   } = req.body;
 
   if (
-    !mudNo ||
+    !mudNumber ||
     !gdNumber ||
     !underSection ||
     !vehicleType ||
@@ -145,9 +145,11 @@ const updateSeizureVehicle = asyncHandler(async (req, res) => {
   if (!existingEntry) {
     throw new ApiError(404, "Entry not found");
   }
-  const existingMudNo = existingEntry.mudNo;
+  const existingmudNumber = existingEntry.mudNumber;
 
-  const releaseItem = await MalkhanaRelease.find({ mudNo: existingMudNo });
+  const releaseItem = await MalkhanaRelease.find({
+    mudNumber: existingmudNumber,
+  });
   if (releaseItem.length > 0) {
     throw new ApiError(400, "Modification is not allowed for released data");
   }

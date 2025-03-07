@@ -4,10 +4,10 @@ const OthersEntry = require("../../model/MalkhanaEntry/othersEntryModel");
 const createOtherEntry = async (req, res) => {
   try {
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -22,10 +22,10 @@ const createOtherEntry = async (req, res) => {
     } = req.body;
     if (
       [
-        firNo,
+        firNumber,
         firYear,
-        mudNo,
-        gdNo,
+        mudNumber,
+        gdNumber,
         gdDate,
         ioName,
         dakhilKarneWala,
@@ -52,10 +52,10 @@ const createOtherEntry = async (req, res) => {
       return res.status(400).json({ message: "Avatar upload failed" });
     }
     const otherEntry = await OthersEntry.create({
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
@@ -98,10 +98,10 @@ const updateOtherEntry = async (req, res) => {
       return res.status(404).json({ message: "invalid Credentails" });
     }
     const {
-      firNo,
+      firNumber,
       firYear,
-      mudNo,
-      gdNo,
+      mudNumber,
+      gdNumber,
       gdDate,
       ioName,
       dakhilKarneWala,
