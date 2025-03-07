@@ -45,6 +45,7 @@ const register = async (req, res) => {
       password: hashedPassword,
       confirmPassword: hashedPassword,
     });
+
     return res
       .status(201)
       .json({ success: true, message: "User created Successfully", user });

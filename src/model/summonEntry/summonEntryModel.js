@@ -22,7 +22,7 @@ const summonEntrySchema = new mongoose.Schema(
     vehicleOwner: { type: String, required: true },
     fatherName: { type: String },
     address: { type: String, required: true },
-    vehicleRegistrationNumber: { type: String, required: true, unique: true },
+    vehicleregNo: { type: String, required: true, unique: true },
     place: { type: String, required: true },
     lastDays: { type: Number, required: true },
     releaseDays: { type: Number },
