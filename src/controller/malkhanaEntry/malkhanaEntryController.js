@@ -75,7 +75,7 @@ const createMalkhanaEntry = async (req, res) => {
     return res.status(201).json({
       success: true,
       message: "Malkhana Entry Created Successfully",
-      malkhana,
+      data: malkhana,
     });
   } catch (error) {
     console.log("ERROR", error);
