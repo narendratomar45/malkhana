@@ -7,5 +7,9 @@ const {
 const router = express.Router();
 router
   .route("/unclaimedEntry")
-  .post(upload.fields([{ name: "avatar", maxCount: 1 }]), createUnclaimedEntry)
+  .post(
+    upload.fields([{ name: "document", maxCount: 10 }]),
+    createUnclaimedEntry
+  )
   .get(getUnclaimedEntry);
+module.exports = router;

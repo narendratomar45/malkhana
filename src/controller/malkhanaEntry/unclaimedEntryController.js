@@ -41,17 +41,20 @@ const createUnclaimedEntry = async (req, res) => {
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const avatarLocalPath = path
-      .resolve(req.files.avatar[0].path)
+    const documentLocalPath = path
+      .resolve(req.files?.document[0]?.path)
       .replace(/\\/g, "/");
-    if (!avatarLocalPath) {
-      return res.status(400).json({ message: "Avatar File required" });
+    if (!documentLocalPath) {
+      return res.status(400).json({ message: "document File required" });
     }
+    console.log("fiels", req.files);
 
-    const avatar = uploadOnCloudinary(avatarLocalPath);
-    if (!avatar || !avatar.url) {
-      return res.status(400).json({ message: "Avatar upload failed" });
+    const document = uploadOnCloudinary(documentLocalPath);
+    if (!document || !document.url) {
+      return res.status(400).json({ message: "document upload failed" });
     }
+    console.log("DOCUMENT", document);
+
     const unclaimedEntry = await UnclaimedEntry.create({
       firNumber,
       firYear,
@@ -68,7 +71,12 @@ const createUnclaimedEntry = async (req, res) => {
       place,
       court,
       status: status || "Pending",
-      avatar: avatar.url,
+      document: document.url,
+    });
+    return res.status(201).json({
+      success: true,
+      message: "Unclaimed Entry created successfully",
+      unclaimedEntry,
     });
   } catch (error) {
     console.log("ERROR", error);
@@ -79,7 +87,7 @@ const createUnclaimedEntry = async (req, res) => {
 };
 const getUnclaimedEntry = async (req, res) => {
   try {
-    const otherEntry = await OthersEntry.find();
+    const otherEntry = await UnclaimedEntry.find();
     return res.status(200).json({ message: "Others Entry Found", otherEntry });
   } catch (error) {
     return res
