@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const unclaimedVehicleSchema = new mongoose.Schema(
   {
-    mudNumber: { type: Number, required: true, unique: true },
-    gdNumber: { type: Number, required: true, unique: true },
+    mudNumber: { type: String, required: true },
+    gdNumber: { type: String, required: true },
     gdDate: { type: Date, required: true },
     underSection: { type: String, required: true },
     vehicleType: { type: String, required: true },
@@ -13,8 +13,8 @@ const unclaimedVehicleSchema = new mongoose.Schema(
     colour: { type: String },
     engineNumber: { type: String, required: true, unique: true },
     result: { type: String, required: true },
-    photoUrl: { type: String },
-    firNumber: { type: String, required: true, unique: true },
+    document: { type: String },
+    firNumber: { type: String, required: true },
     isTracked: { type: Boolean, default: false },
   },
   { timestamps: true }

@@ -43,14 +43,16 @@ const createIpc = async (req, res) => {
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const existingIpc = await IpcVehicle.findOne({
-      $or: [{ regNo }, { chasisNumber }, { engineNumber }],
-    });
-    if (existingIpc) {
-      return res.status(409).json({
-        message:
-          "Vehicle already exists with the same Registration Number, Chassis Number, or Engine Number",
-      });
+    if (!regNo || regNo.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Registration number is required" });
+    }
+    if (!chasisNumber || chasisNumber.trim() === "") {
+      return res.status(400).json({ message: "Chasis number is required" });
+    }
+    if (!engineNumber || engineNumber.trim() === "") {
+      return res.status(400).json({ message: "Engine number is required" });
     }
     const localPath = path.resolve(req.files.document[0].path);
     if (!localPath) {
@@ -86,6 +88,20 @@ const createIpc = async (req, res) => {
     });
   } catch (error) {
     console.log("Error", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
+const getIpcVehicle = async (req, res) => {
+  try {
+    const ipcVehicle = await IpcVehicle.find();
+    return res.status(200).json({
+      success: true,
+      message: "Ipc Vehicle found successfully",
+      ipcVehicle,
+    });
+  } catch (error) {
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });
@@ -168,4 +184,4 @@ const updateIpc = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, updatedEntry, "Entry updated successfully"));
 });
-module.exports = { createIpc, updateIpc };
+module.exports = { createIpc, getIpcVehicle, updateIpc };

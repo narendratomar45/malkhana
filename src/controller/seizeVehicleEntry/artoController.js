@@ -39,25 +39,26 @@ const createArtoSeizure = async (req, res) => {
         .json({ message: "All required fields must be provided" });
     }
 
-    // Check for duplicate vehicle records
-    const existingVehicle = await ArtoSeizure.findOne({
-      $or: [{ regNo }, { chasisNumber }, { engineNumber }],
-    });
-
-    if (existingVehicle) {
-      return res.status(409).json({
-        message:
-          "Vehicle already exists with the same Registration Number, Chassis Number, or Engine Number",
-      });
+    if (!regNo || regNo.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Registration number is required" });
+    }
+    if (!chasisNumber || chasisNumber.trim() === "") {
+      return res.status(400).json({ message: "Chasis number is required" });
+    }
+    if (!engineNumber || engineNumber.trim() === "") {
+      return res.status(400).json({ message: "Engine number is required" });
     }
 
-    const localPath = path.resolve(req.files.document[0].path);
+    const localPath = path.resolve(req?.files?.document[0].path);
     if (!localPath) {
       return res.status(400).json({ message: "Document file required" });
     }
 
-    const documentUrl = await uploadOnCloudinary(localPath);
-    if (!documentUrl) {
+
+    const documentFile = await uploadOnCloudinary(localPath);
+    if (!documentFile) {
       return res.status(400).json({ message: "Document upload failed" });
     }
 
@@ -74,7 +75,7 @@ const createArtoSeizure = async (req, res) => {
       colour,
       engineNumber,
       result,
-      document: documentUrl.url,
+      document: documentFile.url,
     });
 
     return res.status(201).json({
@@ -90,6 +91,22 @@ const createArtoSeizure = async (req, res) => {
   }
 };
 
+
+
+const getArtoSeizure = async (req, res) => {
+  try {
+    const artoSeizure = await ArtoSeizure.find();
+    return res.status(200).json({
+      success: true,
+      message: "ArtoSeizure found successfully",
+      artoSeizure,
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
 const updateArto = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -163,4 +180,4 @@ const updateArto = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedEntry, "Entry updated successfully"));
 });
 
-module.exports = { createArtoSeizure, updateArto };
+module.exports = { createArtoSeizure, getArtoSeizure, updateArto };

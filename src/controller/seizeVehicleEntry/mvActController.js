@@ -45,14 +45,16 @@ const createmvAct = async (req, res) => {
     if (!documentFile || !documentFile.url) {
       return res.status(400).json({ message: "Document upload failed" });
     }
-    const existingMvAct = await MvActSeizure.findOne({
-      $or: [{ regNo }, { chasisNumber }, { engineNumber }],
-    });
-    if (existingMvAct) {
-      return res.status(409).json({
-        message:
-          "Vehicle already exists with the same Registration Number, Chassis Number, or Engine Number",
-      });
+    if (!regNo || regNo.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Registration number is required" });
+    }
+    if (!chasisNumber || chasisNumber.trim() === "") {
+      return res.status(400).json({ message: "Chasis number is required" });
+    }
+    if (!engineNumber || engineNumber.trim() === "") {
+      return res.status(400).json({ message: "Engine number is required" });
     }
     const mvAct = await MvActSeizure.create({
       mudNumber,
@@ -75,6 +77,20 @@ const createmvAct = async (req, res) => {
     });
   } catch (error) {
     console.log("ERROR", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
+const getMvActSeizure = async (req, res) => {
+  try {
+    const mvActSeizure = await MvActSeizure.find();
+    return res.status(200).json({
+      success: true,
+      message: "MvActSeizure found successfully",
+      mvActSeizure,
+    });
+  } catch (error) {
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });
@@ -151,4 +167,4 @@ const updateMvAct = asyncHandler(async (req, res) => {
     .status(200)
     .json(new ApiResponse(200, updatedEntry, "Entry updated successfully"));
 });
-module.exports = { createmvAct, updateMvAct };
+module.exports = { createmvAct, getMvActSeizure, updateMvAct };

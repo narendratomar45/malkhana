@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const artoSeizureSchema = new mongoose.Schema(
   {
-    mudNumber: { type: Number, required: true },
-    gdNumber: { type: Number, required: true },
+    mudNumber: { type: String, required: true },
+    gdNumber: { type: String, required: true },
     gdDate: { type: Date, required: true },
     underSection: { type: String, required: true },
     vehicleType: { type: String, required: true },

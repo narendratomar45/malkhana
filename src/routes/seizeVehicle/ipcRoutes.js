@@ -3,12 +3,14 @@ const upload = require("../../middleware/multerMiddleware");
 const {
   createIpc,
   updateIpc,
+  getIpcVehicle,
 } = require("../../controller/seizeVehicleEntry/ipcController");
 const router = express.Router();
 router
-  .route("/ipc")
-  .post(upload.fields([{ name: "document", maxCount: 10 }]), createIpc);
+  .route("/ipcVehicle")
+  .post(upload.fields([{ name: "document", maxCount: 10 }]), createIpc)
+  .get(getIpcVehicle);
 router
-  .route("/ipc/:id")
+  .route("/ipcVehicle/:id")
   .patch(upload.fields([{ name: "document", maxCount: 10 }]), updateIpc);
 module.exports = router;

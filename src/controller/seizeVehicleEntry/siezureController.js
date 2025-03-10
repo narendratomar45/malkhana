@@ -5,7 +5,7 @@ const ApiError = require("../../utils/ApiError");
 const ApiResponse = require("../../utils/ApiResponse");
 const asyncHandler = require("../../utils/asyncHandler");
 const MalkhanaRelease = require("../../model/malkhanaRelease/malkhanaReleaseModel");
-const createSiezure = async (req, res) => {
+const createSeizure = async (req, res) => {
   try {
     const {
       mudNumber,
@@ -48,25 +48,24 @@ const createSiezure = async (req, res) => {
     if (!localPath) {
       return res.status(400).json({ message: "Document upload failed" });
     }
-    console.log("LOCALPATH", localPath);
 
     const documentFile = await uploadOnCloudinary(localPath);
     if (!documentFile || !documentFile.url) {
       return res.status(400).json({ message: "Document upload failed" });
     }
-    console.log("DOCUMENT", documentFile);
-    console.log("DOCUMENTURL", documentFile.url);
 
-    const existingSiezure = await SeizureVehicle.findOne({
-      $or: [{ regNo }, { chasisNumber }, { engineNumber }],
-    });
-    if (existingSiezure) {
-      return res.status(409).json({
-        message:
-          "Vehicle already exists with the same Registration Number, Chassis Number, or Engine Number",
-      });
+    if (!regNo || regNo.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: "Registration number is required" });
     }
-    const siezure = await SeizureVehicle.create({
+    if (!chasisNumber || chasisNumber.trim() === "") {
+      return res.status(400).json({ message: "Chasis number is required" });
+    }
+    if (!engineNumber || engineNumber.trim() === "") {
+      return res.status(400).json({ message: "Engine number is required" });
+    }
+    const seizure = await SeizureVehicle.create({
       mudNumber,
       gdNumber,
       gdDate,
@@ -86,11 +85,25 @@ const createSiezure = async (req, res) => {
     });
     return res.status(201).json({
       success: true,
-      message: "Siezure Vehicle created successfully",
-      siezure,
+      message: "seizure Vehicle created successfully",
+      seizure,
     });
   } catch (error) {
     console.log("ERROR", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
+const getSeizureVehicle = async (req, res) => {
+  try {
+    const seizureVehicle = await SeizureVehicle.find();
+    return res.status(200).json({
+      success: true,
+      message: "Seizure Vehicle found successfully",
+      seizureVehicle,
+    });
+  } catch (error) {
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });
@@ -175,4 +188,4 @@ const updateSeizureVehicle = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, updatedEntry, "Entry updated successfully"));
 });
 
-module.exports = { createSiezure, updateSeizureVehicle };
+module.exports = { createSeizure, getSeizureVehicle, updateSeizureVehicle };

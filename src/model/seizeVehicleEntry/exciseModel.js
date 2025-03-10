@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const exciseVehicleSchema = new mongoose.Schema(
   {
-    mudNumber: { type: Number, required: true, unique: true },
-    gdNumber: { type: Number, required: true, unique: true },
+    mudNumber: { type: String, required: true,  },
+    gdNumber: { type: String, required: true,  },
     gdDate: { type: Date, required: true },
     underSection: { type: String, required: true },
     vehicleType: { type: String, required: true },
@@ -13,7 +13,7 @@ const exciseVehicleSchema = new mongoose.Schema(
     colour: { type: String },
     engineNumber: { type: String, required: true, unique: true },
     result: { type: String, required: true },
-    firNumber: { type: String, required: true, unique: true },
+    firNumber: { type: String, required: true, },
     banam: { type: String, required: true },
     vehicleOwner: { type: String, required: true },
     document: { type: String },

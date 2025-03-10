@@ -1,15 +1,17 @@
 const express = require("express");
 const upload = require("../../middleware/multerMiddleware");
 const {
-  createSiezure,
+  createSeizure,
   updateSeizureVehicle,
+  getSeizureVehicle,
 } = require("../../controller/seizeVehicleEntry/siezureController");
 const router = express.Router();
 router
-  .route("/siezure")
-  .post(upload.fields([{ name: "document", maxCount: 10 }]), createSiezure);
+  .route("/seizureVehicle")
+  .post(upload.fields([{ name: "document", maxCount: 10 }]), createSeizure)
+  .get(getSeizureVehicle);
 router
-  .route("/siezure/:id")
+  .route("/seizureVehicle/:id")
   .patch(
     upload.fields([{ name: "document", maxCount: 10 }]),
     updateSeizureVehicle
