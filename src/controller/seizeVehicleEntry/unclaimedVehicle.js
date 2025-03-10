@@ -95,13 +95,11 @@ const getUnclaimedVehicle = async (req, res) => {
     if (!unclaimedVehicle) {
       return res.status(400).json({ message: "No data found" });
     }
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: "Unclaimed Vehicle record found",
-        unclaimedVehicle,
-      });
+    return res.status(200).json({
+      success: true,
+      message: "Unclaimed Vehicle record found",
+      unclaimedVehicle,
+    });
   } catch (error) {
     console.log("ERROR", error);
     return res
