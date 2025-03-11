@@ -1,8 +1,8 @@
 const xlsx = require("xlsx");
 const fs = require("fs");
 const pdfParse = require("pdf-parse");
-const Test = require("../model/testModel");
-const FslEntry = require("../model/MalkhanaEntry/fslEntryModel");
+const ImportData = require("../model/importDataModel");
+
 const importExcel = async (req, res) => {
   try {
     if (!req.file) {
@@ -16,7 +16,7 @@ const importExcel = async (req, res) => {
     if (!data || data.length === 0) {
       return res.status(400).json({ message: "Excel file is empty!" });
     }
-    await Test.insertMany(data);
+    await ImportData.insertMany(data);
     return res.status(200).json({
       success: true,
       message: "Excel file Imported Successfully!",
@@ -28,6 +28,7 @@ const importExcel = async (req, res) => {
       .json({ success: false, message: "Internal Server Error" });
   }
 };
+
 const importPdf = async (req, res) => {
   try {
     if (!req.file) {
@@ -83,9 +84,23 @@ const importPdf = async (req, res) => {
       .json({ success: false, message: "Internal Server Error" });
   }
 };
-
+const getImportData = async (req, res) => {
+  try {
+    const importData = await ImportData.find();
+    if (!importData) {
+      return res.status(400).json({ message: "Data not found" });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "Data found successfully", importData });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
 const deletedata = async (req, res) => {
   try {
   } catch (error) {}
 };
-module.exports = { importExcel, importPdf };
+module.exports = { importExcel, getImportData, importPdf };

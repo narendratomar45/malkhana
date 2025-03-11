@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const testSchema = new mongoose.Schema(
+const importDataSchema = new mongoose.Schema(
   {
     Mud_no: String,
     FIR_no: String,
@@ -19,5 +19,5 @@ const testSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Test = mongoose.model("Test", testSchema);
-module.exports = Test;
+const ImportData = mongoose.model("ImportData", importDataSchema);
+module.exports = ImportData;

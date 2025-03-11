@@ -48,6 +48,7 @@ const createUnclaimedEntry = async (req, res) => {
       return res.status(400).json({ message: "document File required" });
     }
     console.log("fiels", req.files);
+    console.log("path", documentLocalPath);
 
     const document = uploadOnCloudinary(documentLocalPath);
     if (!document || !document.url) {

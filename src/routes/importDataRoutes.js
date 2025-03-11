@@ -1,9 +1,16 @@
 const express = require("express");
-const { importExcel, importPdf } = require("../controller/testController");
+const {
+  importExcel,
+  importPdf,
+  getImportData,
+} = require("../controller/importDataController");
 const upload = require("../middleware/multerMiddleware");
 const router = express.Router();
 
-router.post("/importExcel", upload.single("file"), importExcel);
+router
+  .route("/importData")
+  .post(upload.single("file"), importExcel)
+  .get(getImportData);
 router.post("/importPdf", upload.single("file"), importPdf);
 // router.delete("/deleteEntry");
 
