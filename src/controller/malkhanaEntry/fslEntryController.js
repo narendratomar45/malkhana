@@ -23,34 +23,36 @@ const createFslEntry = async (req, res) => {
       status,
     } = req.body;
     if (
-      [
-        firNumber,
-        firYear,
-        mudNumber,
-        gdNumber,
-        gdDate,
-        ioName,
-        dakhilKarneWala,
-        banam,
-        caseProperty,
-        underSection,
-        actType,
-        description,
-        place,
-        court,
-        status,
-      ].some((field) => field.trim() === "")
+      !firNumber ||
+      !firYear ||
+      !mudNumber ||
+      !gdNumber ||
+      !gdDate ||
+      !ioName ||
+      !dakhilKarneWala ||
+      !banam ||
+      !caseProperty ||
+      !underSection ||
+      !actType ||
+      !description ||
+      !place ||
+      !court ||
+      !status
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const avatarLocalPath = path
-      .resolve(req.files.avatar[0]?.path)
+
+    const user = req.user;
+    console.log("USER", user);
+
+    const documentLocalPath = path
+      .resolve(req.files.document[0]?.path)
       .replace(/\\/g, "/");
-    if (!avatarLocalPath) {
-      return res.status(400).json("Avatar File required");
+    if (!documentLocalPath) {
+      return res.status(400).json("document File required");
     }
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
-    if (!avatar || !avatar.url) {
+    const document = await uploadOnCloudinary(documentLocalPath);
+    if (!document || !document.url) {
       return res.status(400).json({ message: "Avtar upload failed" });
     }
     const fslEntry = await FslEntry.create({
@@ -69,7 +71,9 @@ const createFslEntry = async (req, res) => {
       place,
       court,
       status: status || "Pending",
-      avatar: avatar.url,
+      document: document.url,
+      policeStation: user.policeStation,
+      district: user.district,
     });
     return res.status(201).json({
       success: true,
@@ -77,6 +81,8 @@ const createFslEntry = async (req, res) => {
       fslEntry,
     });
   } catch (error) {
+    console.log("ERROR", error);
+
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });
@@ -84,6 +90,8 @@ const createFslEntry = async (req, res) => {
 };
 const getFslEntry = async (req, res) => {
   try {
+    const user = req.user;
+    console.log("USER", user);
     const fslEntry = await FslEntry.find();
     return res.status(200).json({
       success: true,
@@ -144,19 +152,19 @@ const updateFslEntry = async (req, res) => {
     if (!existingFslEntry) {
       return res.status(404).json({ message: "FslEntry not Found" });
     }
-    const avatarUrl = existingFslEntry.avatar;
-    if (req.files?.avatar?.[0]?.path) {
-      const avatarLocalPath = path
-        .resolve(req.files.avatar[0].path)
+    const documentUrl = existingFslEntry.document;
+    if (req.files?.document?.[0]?.path) {
+      const documentLocalPath = path
+        .resolve(req.files.document[0].path)
         .replace(/\\/g, "/");
-      if (!avatarLocalPath) {
-        return res.status(400).json({ message: "Avatar file required" });
+      if (!documentLocalPath) {
+        return res.status(400).json({ message: "document file required" });
       }
-      const uploadAvatar = await uploadOnCloudinary(avatarLocalPath);
-      if (!uploadAvatar || !uploadAvatar.url) {
-        return res.status(400).json({ message: "Avatar upload failed" });
+      const uploaddocument = await uploadOnCloudinary(documentLocalPath);
+      if (!uploaddocument || !uploaddocument.url) {
+        return res.status(400).json({ message: "document upload failed" });
       }
-      avatarUrl = uploadAvatar.url;
+      documentUrl = uploaddocument.url;
     }
     const updatedFslEntry = await FslEntry.findByIdAndUpdate(
       id,
@@ -176,7 +184,7 @@ const updateFslEntry = async (req, res) => {
         place,
         court,
         status: status || "Pending",
-        avatar: avatarUrl,
+        document: documentUrl,
       },
       { new: true, runValidators: true }
     );

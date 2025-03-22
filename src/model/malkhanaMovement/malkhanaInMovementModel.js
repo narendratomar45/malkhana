@@ -24,6 +24,8 @@ const malkhanaOutMovementSchema = mongoose.Schema(
     description: { type: String, required: true, trim: true },
     recievedBy: { type: String, required: true },
     document: { type: String },
+    district: { type: String },
+    policeStation: { type: String },
   },
   { timestamps: true }
 );

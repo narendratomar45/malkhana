@@ -42,17 +42,19 @@ const createMalkhanaEntry = async (req, res) => {
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const avatarLocalPath = path
-      .resolve(req.files.avatar[0]?.path)
+
+    const user = req.user;
+    const documentLocalPath = path
+      .resolve(req.files.document[0]?.path)
       .replace(/\\/g, "/");
-    if (!avatarLocalPath) {
-      return res.status(400).json({ message: "Avatar file required" });
+    if (!documentLocalPath) {
+      return res.status(400).json({ message: "document file required" });
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
-    if (!avatar || !avatar.url) {
-      console.error("Cloudinary Upload Failed:", avatar);
-      return res.status(400).json({ message: "Avatar upload failed" });
+    const document = await uploadOnCloudinary(documentLocalPath);
+    if (!document || !document.url) {
+      console.error("Cloudinary Upload Failed:", document);
+      return res.status(400).json({ message: "document upload failed" });
     }
     const malkhana = await MalkhanaEntry.create({
       firNumber,
@@ -70,7 +72,9 @@ const createMalkhanaEntry = async (req, res) => {
       place,
       court,
       status: status || "Pending",
-      avatar: avatar.url,
+      document: document.url,
+      district: user.district,
+      policeStation: user.policeStation,
     });
     return res.status(201).json({
       success: true,
@@ -120,13 +124,13 @@ const updateMalkhanaEntry = async (req, res) => {
       court,
       status,
     } = req.body;
-    if (req.files && req.files.avatar) {
-      const avatarLocalPath = req.files.avatar[0]?.path.replace(/\\/g, "/");
-      if (avatarLocalPath) {
-        const avatarUpload = await uploadOnCloudinary(avatarLocalPath);
-        if (avatarUpload && avatarUpload.url) {
+    if (req.files && req.files.document) {
+      const documentLocalPath = req.files.document[0]?.path.replace(/\\/g, "/");
+      if (documentLocalPath) {
+        const documentUpload = await uploadOnCloudinary(documentLocalPath);
+        if (documentUpload && documentUpload.url) {
         } else {
-          return res.status(400).json({ message: "Avatar upload failed" });
+          return res.status(400).json({ message: "document upload failed" });
         }
       }
     }
@@ -134,20 +138,20 @@ const updateMalkhanaEntry = async (req, res) => {
     if (!existingMalkhanaEntry) {
       return res.status(404).json({ message: "Malkhana Entry Not Found" });
     }
-    const avatarUrl = existingMalkhanaEntry.avatar;
-    if (req.files.avatar[0].path) {
-      const avatarLocalPath = path
-        .resolve(req.files.avatar[0].path)
+    const documentUrl = existingMalkhanaEntry.document;
+    if (req.files.document[0].path) {
+      const documentLocalPath = path
+        .resolve(req.files.document[0].path)
         .replace(/\\/g, "/");
-      if (!avatarLocalPath) {
-        return res.status(400).json({ message: "Avatar file required" });
+      if (!documentLocalPath) {
+        return res.status(400).json({ message: "document file required" });
       }
-      const uploadAvatar = await uploadOnCloudinary(avatarLocalPath);
-      if (!uploadAvatar || !uploadAvatar.url) {
+      const uploaddocument = await uploadOnCloudinary(documentLocalPath);
+      if (!uploaddocument || !uploaddocument.url) {
         return res.status({ message: "Avtar Upload failed" });
       }
     }
-    avatarUrl = uploadAvatar.url;
+    documentUrl = uploaddocument.url;
     const malkhana = await MalkhanaEntry.findByIdAndUpdate(
       id,
       {
@@ -166,7 +170,7 @@ const updateMalkhanaEntry = async (req, res) => {
         place,
         court,
         status: status || "Pending",
-        avatar: avatarUrl,
+        document: documentUrl,
       },
       { new: true }
     );

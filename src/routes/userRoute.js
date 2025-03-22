@@ -7,11 +7,18 @@ const {
   updateUser,
 } = require("../controller/authController");
 const userAuth = require("../middleware/authMiddleware");
+const upload = require("../middleware/multerMiddleware");
+
 const router = express.Router();
+
+// Separate routes for each functionality
+router.post("/register", upload.single("avatar"), register);
+router.post("/login", login);
+router.post("/logout", userAuth, logoutUser);
+
 router
-  .post("/register", register)
-  .post("/login", login)
-  .delete("/delete/:id", userAuth, deleteUser)
-  .post("/logout", userAuth, logoutUser)
-  .patch("/update/:id", userAuth, updateUser);
+  .route("/user/:id")
+  .delete(userAuth, deleteUser)
+  .patch(userAuth, updateUser);
+
 module.exports = router;

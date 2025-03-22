@@ -17,6 +17,8 @@ const ipcVehicleSchema = new mongoose.Schema(
     firNumber: { type: String, required: true },
     vehicleOwner: { type: String, required: true },
     isTracked: { type: Boolean, default: false },
+    district: { type: String },
+    policeStation: { type: String },
   },
   { timestamps: true }
 );

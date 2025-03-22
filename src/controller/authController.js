@@ -1,7 +1,8 @@
 const User = require("../model/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const path = require("path");
+const uploadOnCloudinary = require("../utilities/cloudinary");
 const register = async (req, res) => {
   try {
     const {
@@ -13,6 +14,7 @@ const register = async (req, res) => {
       role,
       password,
       confirmPassword,
+      district,
     } = req.body;
     if (
       !username ||
@@ -22,16 +24,30 @@ const register = async (req, res) => {
       !mobile ||
       !policeStation ||
       !designation ||
-      !role
+      !role ||
+      !district
     ) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are requireds" });
     }
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Password do not match" });
     }
+    console.log("REQ FILE:", req.file);
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "You have already account " });
+    }
+    const localPath = path.resolve(req.file.path);
+    console.log("LP", localPath);
+
+    if (!localPath) {
+      return res.status(400).json({ message: "Avatar file is required" });
+    }
+    const documentFile = await uploadOnCloudinary(localPath);
+    console.log("DF", documentFile);
+
+    if (!documentFile || !documentFile.url) {
+      return res.status(400).json({ message: "Upload Avatar Failed" });
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -44,12 +60,16 @@ const register = async (req, res) => {
       role,
       password: hashedPassword,
       confirmPassword: hashedPassword,
+      district,
+      avatar: documentFile.url,
     });
 
     return res
       .status(201)
       .json({ success: true, message: "User created Successfully", user });
   } catch (error) {
+    console.log("ERROR", error);
+
     return res
       .status(500)
       .json({ success: false, message: "Internal Server Error" });
@@ -73,16 +93,8 @@ const login = async (req, res) => {
     if (!ispasswordValid) {
       return res.status(401).json({ message: "Invalid Credentials" });
     }
-    const token = jwt.sign(
-      { userId: user._id, email: user.email, role: user.designation },
-      "4@5#8@3#Narendra",
-      { expiresIn: "7d" }
-    );
-    res.cookie("token", token, {
-      httpOnly: true, // Prevents client-side access to the cookie
-      secure: false, // Set to 'true' if using HTTPS
-      sameSite: "Lax", // Prevents CSRF attacks
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+    const token = jwt.sign({ userId: user._id }, "4@5#8@3#Narendra", {
+      expiresIn: "7d",
     });
 
     return res

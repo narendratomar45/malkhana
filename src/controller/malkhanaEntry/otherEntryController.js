@@ -41,15 +41,15 @@ const createOtherEntry = async (req, res) => {
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const avatarLocalPath = path
-      .resolve(req.files.avatar[0]?.path)
+    const documentLocalPath = path
+      .resolve(req.files.document[0]?.path)
       .replace(/\\/g, "/");
-    if (!avatarLocalPath) {
-      return res.status(400).json({ message: "Avatar File required" });
+    if (!documentLocalPath) {
+      return res.status(400).json({ message: "document File required" });
     }
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
-    if (!avatar || !avatar.url) {
-      return res.status(400).json({ message: "Avatar upload failed" });
+    const document = await uploadOnCloudinary(documentLocalPath);
+    if (!document || !document.url) {
+      return res.status(400).json({ message: "document upload failed" });
     }
     const otherEntry = await OthersEntry.create({
       firNumber,
@@ -67,7 +67,7 @@ const createOtherEntry = async (req, res) => {
       place,
       court,
       status: status || "Pending",
-      avatar: avatar.url,
+      document: document.url,
     });
     return res.status(201).json({
       success: true,
@@ -116,7 +116,7 @@ const updateOtherEntry = async (req, res) => {
     } = req.body;
     const existingOthersEntry = await OthersEntry.findById(id);
 
-    // let avatarUrl =
+    // let documentUrl =
   } catch (error) {}
 };
 module.exports = { createOtherEntry, getOthersEntry };

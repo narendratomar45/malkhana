@@ -5,7 +5,10 @@ const {
   updateSeizureVehicle,
   getSeizureVehicle,
 } = require("../../controller/seizeVehicleEntry/siezureController");
+const userAuth = require("../../middleware/authMiddleware");
 const router = express.Router();
+router.use(userAuth);
+
 router
   .route("/seizureVehicle")
   .post(upload.fields([{ name: "document", maxCount: 10 }]), createSeizure)

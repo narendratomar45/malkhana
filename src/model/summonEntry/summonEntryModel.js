@@ -29,6 +29,8 @@ const summonEntrySchema = new mongoose.Schema(
     actType: { type: String, required: true },
     date: { type: String, required: true },
     time: { type: String, required: true },
+    district: { type: String },
+    policeStation: { type: String },
   },
   { timestamps: true }
 );

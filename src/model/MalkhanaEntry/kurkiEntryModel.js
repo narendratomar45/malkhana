@@ -15,8 +15,10 @@ const kurkiEntrySchema = new mongoose.Schema({
   place: { type: String, required: true, trim: true },
   court: { type: String, required: true, trim: true },
   status: { type: String, required: true, trim: true, default: "Pending" },
-  avatar: { type: String, required: true, trim: true },
+  document: { type: String, required: true, trim: true },
   isTracked: { type: Boolean, default: false },
+  district: { type: String },
+  policeStation: { type: String },
 });
 const KurkiEntry = mongoose.model("KurkiEntry", kurkiEntrySchema);
 module.exports = KurkiEntry;

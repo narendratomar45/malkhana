@@ -39,13 +39,13 @@ const createUnclaimedVehicle = async (req, res) => {
     }
     const localPath = path.resolve(req.files.document[0].path);
     if (!localPath) {
-      return res.status(400).json({ message: "Document upload failed" });
+      return res.status(400).json({ message: "document upload failed" });
     }
     console.log("LOCALPATH", localPath);
 
     const documentFile = await uploadOnCloudinary(localPath);
     if (!documentFile || !documentFile.url) {
-      return res.status(400).json({ message: "Document upload failed" });
+      return res.status(400).json({ message: "document upload failed" });
     }
     console.log("DF", documentFile);
 
@@ -161,11 +161,11 @@ const updatedUnclaimedVehicle = async (req, res) => {
         if (uploadFile && uploadFile.url) {
           documentFile = uploadFile.url;
         } else {
-          return res.status(400).json({ message: "Upload Document failed" });
+          return res.status(400).json({ message: "Upload document failed" });
         }
       }
     } else if (!documentFile) {
-      return res.status(400).json({ message: "Document file require" });
+      return res.status(400).json({ message: "document file require" });
     }
     const updatedVehicle = await UnclaimedVehicle.findByIdAndUpdate(
       id,

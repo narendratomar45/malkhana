@@ -18,6 +18,8 @@ const seizureVehicleSchema = new mongoose.Schema(
     banam: { type: String, required: true },
     vehicleOwner: { type: String, required: true },
     isTracked: { type: Boolean, default: false },
+    district: { type: String },
+    policeStation: { type: String },
   },
   { timestamps: true }
 );

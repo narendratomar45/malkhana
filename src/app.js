@@ -1,5 +1,4 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
 const connectDb = require("./config/db.js");
 const cors = require("cors");
 const app = express();
@@ -19,12 +18,15 @@ const smsRouter = require("./routes/smsRoute.js");
 const artoRouter = require("./routes/seizeVehicle/artoRoutes.js");
 const unclaimedEntryRouter = require("./routes/malkhanaEntry/unclaimedEntryRoutes.js");
 const unclaimedVehicleRouter = require("./routes/seizeVehicle/unclaimedRoutes.js");
+const imageRouter = require("./routes/imageRoutes.js");
+const profileRouter = require("./routes/profileRoutes.js");
+
 const PORT = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(cookieParser());
-app.use("/", summonEntryRouter);
+app.use(cors({ origin: "http://localhost:5173" }));
+
+app.use("/api", summonEntryRouter);
 app.use("/api", malkhanaEntryRouter);
 app.use("/api", fslEntryRouter);
 app.use("/api", kurkiEntryRouter);
@@ -40,6 +42,8 @@ app.use("/api", importDataRouter);
 app.use("/api", smsRouter);
 app.use("/api", artoRouter);
 app.use("/api", unclaimedVehicleRouter);
+app.use("/api", imageRouter);
+app.use("/api", profileRouter);
 app.get("/", (req, res) => {
   res.send("Hello");
 });

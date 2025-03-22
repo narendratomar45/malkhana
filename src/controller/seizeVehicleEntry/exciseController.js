@@ -60,7 +60,7 @@ const createExcise = async (req, res) => {
 
     const localPath = path.resolve(req.files.document[0].path);
     if (!localPath) {
-      return res.status(400).json({ message: "Document file required" });
+      return res.status(400).json({ message: "document file required" });
     }
     const documentFile = await uploadOnCloudinary(localPath);
     if (!documentFile || !documentFile.url) {

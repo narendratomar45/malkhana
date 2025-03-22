@@ -5,15 +5,20 @@ const {
   updateMalkhanaEntry,
 } = require("../../controller/malkhanaEntry/malkhanaEntryController");
 const upload = require("../../middleware/multerMiddleware");
+const userAuth = require("../../middleware/authMiddleware");
 const router = express.Router();
+router.use(userAuth);
 router
   .route("/malkhanaEntry")
-  .post(upload.fields([{ name: "avatar", maxCount: 10 }]), createMalkhanaEntry)
+  .post(
+    upload.fields([{ name: "document", maxCount: 10 }]),
+    createMalkhanaEntry
+  )
   .get(getAllMalkhanaEntry);
 router
   .route("/malkhanaEntry/:id")
   .patch(
-    upload.fields([{ name: "avatar", maxCount: 10 }]),
+    upload.fields([{ name: "document", maxCount: 10 }]),
     updateMalkhanaEntry
   );
 module.exports = router;

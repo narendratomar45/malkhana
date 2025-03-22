@@ -7,6 +7,6 @@ const {
 const router = express.Router();
 router
   .route("/otherEntry")
-  .post(upload.fields([{ name: "avatar", maxCount: 1 }]), createOtherEntry)
+  .post(upload.fields([{ name: "document", maxCount: 1 }]), createOtherEntry)
   .get(getOthersEntry);
 module.exports = router;

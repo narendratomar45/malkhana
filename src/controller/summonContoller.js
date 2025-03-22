@@ -43,27 +43,7 @@ const createSummonEntry = async (req, res) => {
       .json({ message: "Server Error", error: error.message });
   }
 };
-const getSummonEntry = async (req, res) => {
-  try {
-    const { id } = req.params;
-    if (!id) {
-      return res.status(400).json({ message: "Summon Id not found" });
-    }
-    const summonEntry = await SummonEntry.findById(id);
-    if (!summonEntry) {
-      return res.status(404).json({ message: "Summon entry not found" });
-    }
-    return res.status(200).json({
-      success: true,
-      message: "Summon entry found Successfully",
-      summonEntry,
-    });
-  } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Server Error", error: error.message });
-  }
-};
+
 const getAllSummonEntry = async (req, res) => {
   try {
     const allSummonEntry = await SummonEntry.find();
@@ -148,7 +128,6 @@ const deleteSummonEntry = async (req, res) => {
 };
 module.exports = {
   createSummonEntry,
-  getSummonEntry,
   getAllSummonEntry,
   updateSummonEntry,
   deleteSummonEntry,

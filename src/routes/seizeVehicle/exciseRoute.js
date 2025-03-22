@@ -5,7 +5,10 @@ const {
   updateExcise,
   getExciseVehicle,
 } = require("../../controller/seizeVehicleEntry/exciseController");
+const { route } = require("../summonEntryRoutes");
+const userAuth = require("../../middleware/authMiddleware");
 const router = express.Router();
+router.use(userAuth);
 router
   .route("/exciseVehicle")
   .post(upload.fields([{ name: "document", maxCount: 1 }]), createExcise)

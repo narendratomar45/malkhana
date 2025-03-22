@@ -17,6 +17,8 @@ const unclaimedEntrySchema = new mongoose.Schema({
   status: { type: String, required: true, default: "Pending" },
   document: { type: String, required: true },
   isTracked: { type: Boolean, default: false },
+  district: { type: String },
+  policeStation: { type: String },
 });
 const UnclaimedEntry = mongoose.model("UnclaimedEntry", unclaimedEntrySchema);
 module.exports = UnclaimedEntry;

@@ -54,7 +54,7 @@ const createUnclaimedEntry = async (req, res) => {
     if (!document || !document.url) {
       return res.status(400).json({ message: "document upload failed" });
     }
-    console.log("DOCUMENT", document);
+    console.log("document", document);
 
     const unclaimedEntry = await UnclaimedEntry.create({
       firNumber,

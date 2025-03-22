@@ -46,7 +46,7 @@ const releaseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    avatar: {
+    document: {
       type: String,
       required: false,
     },

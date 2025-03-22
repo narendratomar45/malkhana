@@ -15,6 +15,8 @@ const mvActSchema = new mongoose.Schema(
     result: { type: String, required: true },
     document: { type: String },
     isTracked: { type: Boolean, default: false },
+    district: { type: String },
+    policeStation: { type: String },
   },
   { timestamps: true }
 );

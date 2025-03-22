@@ -42,17 +42,18 @@ const createKurkiEntry = async (req, res) => {
     ) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const avatarLocalPath = path
-      .resolve(req.files.avatar[0]?.path)
+    const user = user.req;
+    const documentLocalPath = path
+      .resolve(req.files.document[0]?.path)
       .replace(/\\/g, "/");
-    if (!avatarLocalPath) {
-      return res.status(400).json({ message: "Avatar file required" });
+    if (!documentLocalPath) {
+      return res.status(400).json({ message: "document file required" });
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath);
-    if (!avatar || !avatar.url) {
-      console.error("Cloudinary Upload Failed:", avatar);
-      return res.status(400).json({ message: "Avatar upload failed" });
+    const document = await uploadOnCloudinary(documentLocalPath);
+    if (!document || !document.url) {
+      console.error("Cloudinary Upload Failed:", document);
+      return res.status(400).json({ message: "document upload failed" });
     }
     const Kurki = await KurkiEntry.create({
       firNumber,
@@ -70,7 +71,9 @@ const createKurkiEntry = async (req, res) => {
       place,
       court,
       status: status || "Pending",
-      avatar: avatar.url,
+      document: document.url,
+      policeStation: user.policeStation,
+      district: user.district,
     });
     return res.status(201).json({
       success: true,
@@ -120,13 +123,13 @@ const updateKurkiEntry = async (req, res) => {
       court,
       status,
     } = req.body;
-    if (req.files && req.files.avatar) {
-      const avatarLocalPath = req.files.avatar[0]?.path.replace(/\\/g, "/");
-      if (avatarLocalPath) {
-        const avatarUpload = await uploadOnCloudinary(avatarLocalPath);
-        if (avatarUpload && avatarUpload.url) {
+    if (req.files && req.files.document) {
+      const documentLocalPath = req.files.document[0]?.path.replace(/\\/g, "/");
+      if (documentLocalPath) {
+        const documentUpload = await uploadOnCloudinary(documentLocalPath);
+        if (documentUpload && documentUpload.url) {
         } else {
-          return res.status(400).json({ message: "Avatar upload failed" });
+          return res.status(400).json({ message: "document upload failed" });
         }
       }
     }
@@ -134,20 +137,20 @@ const updateKurkiEntry = async (req, res) => {
     if (!existingKurkiEntry) {
       return res.status(404).json({ message: "Kurki Entry Not Found" });
     }
-    const avatarUrl = existingKurkiEntry.avatar;
-    if (req.files.avatar[0].path) {
-      const avatarLocalPath = path
-        .resolve(req.files.avatar[0].path)
+    const documentUrl = existingKurkiEntry.document;
+    if (req.files.document[0].path) {
+      const documentLocalPath = path
+        .resolve(req.files.document[0].path)
         .replace(/\\/g, "/");
-      if (!avatarLocalPath) {
-        return res.status(400).json({ message: "Avatar file required" });
+      if (!documentLocalPath) {
+        return res.status(400).json({ message: "document file required" });
       }
-      const uploadAvatar = await uploadOnCloudinary(avatarLocalPath);
-      if (!uploadAvatar || !uploadAvatar.url) {
+      const uploaddocument = await uploadOnCloudinary(documentLocalPath);
+      if (!uploaddocument || !uploaddocument.url) {
         return res.status({ message: "Avtar Upload failed" });
       }
     }
-    avatarUrl = uploadAvatar.url;
+    documentUrl = uploaddocument.url;
     const kurki = await KurkiEntry.findByIdAndUpdate(
       id,
       {
@@ -166,7 +169,7 @@ const updateKurkiEntry = async (req, res) => {
         place,
         court,
         status: status || "Pending",
-        avatar: avatarUrl,
+        document: documentUrl,
       },
       { new: true }
     );

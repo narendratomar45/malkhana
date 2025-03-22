@@ -5,7 +5,10 @@ const {
   updateIpc,
   getIpcVehicle,
 } = require("../../controller/seizeVehicleEntry/ipcController");
+const userAuth = require("../../middleware/authMiddleware");
 const router = express.Router();
+router.use(userAuth);
+
 router
   .route("/ipcVehicle")
   .post(upload.fields([{ name: "document", maxCount: 10 }]), createIpc)

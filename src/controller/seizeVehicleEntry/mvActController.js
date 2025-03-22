@@ -39,11 +39,11 @@ const createmvAct = async (req, res) => {
     }
     const localPath = path.resolve(req.files.document[0].path);
     if (!localPath) {
-      return res.status(400).json({ message: "Document upload failed" });
+      return res.status(400).json({ message: "document upload failed" });
     }
     const documentFile = await uploadOnCloudinary(localPath);
     if (!documentFile || !documentFile.url) {
-      return res.status(400).json({ message: "Document upload failed" });
+      return res.status(400).json({ message: "document upload failed" });
     }
     if (!regNo || regNo.trim() === "") {
       return res

@@ -5,7 +5,9 @@ const {
   getUnclaimedVehicle,
   updatedUnclaimedVehicle,
 } = require("../../controller/seizeVehicleEntry/unclaimedVehicle");
+const userAuth = require("../../middleware/authMiddleware");
 const router = express.Router();
+router.use(userAuth);
 router
   .route("/unclaimedVehicle")
   .post(

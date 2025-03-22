@@ -2,16 +2,12 @@ const jwt = require("jsonwebtoken");
 const User = require("../model/userModel");
 const userAuth = async (req, res, next) => {
   try {
-    const token =
-      req.cookies?.token || req.header("Authorization")?.replace("Bearer", "");
+    const token = req.header("Authorization")?.replace("Bearer ", "").trim();
     if (!token) {
       return res.status(401).json({ message: "Token not found" });
     }
     const decoded = jwt.verify(token, "4@5#8@3#Narendra");
-    console.log("DECODEC", decoded);
-    console.log("DECODEdID", decoded.userId);
     const user = await User.findById(decoded.userId);
-    console.log();
 
     if (!user) {
       return res
